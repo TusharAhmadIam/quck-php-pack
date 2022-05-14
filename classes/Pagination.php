@@ -10,18 +10,18 @@
 
 		$query = 'select * from posts where cat_id = :cat_id';
 	
-        $bind_function = function param_bind_function($result){
+        function param_bind_function($statement){
             global $cat_id;
-            $result->bindParam(':id', $cat_id ,PDO::PARAM_INT);
+            $statement->bindParam(':id', $cat_id ,PDO::PARAM_INT);
         }
 
-        $pg = new Pagination($connection,$query,$bind_function);
+        $pg = new Pagination($connection,$query,'param_bind_function');
 		
         if($pg->totalResults > 0){
 
             $rows = $pg->fetch_results(); 
             
-            foreach($rows as $key => $row){
+            foreach($rows as $row){
             ----- $row['title']-----
             ----- $row['body']------
             }
@@ -34,13 +34,10 @@
 
 class Pagination{
 
-    public $connection;
-    public $query;
     public int $totalResults;
     public int $buttonNumbers = 5;
     public int $itemsPerPage = 10;
     public int $start;
-    public $value_bind_function;
     public int $totalPages;
     public int $page;
     public $result;
@@ -48,11 +45,7 @@ class Pagination{
     public $prevLinkText = '&laquo';
     public $nextLinkText = '&raquo';
 
-    public function __construct($connection,$query,$value_bind_function = null){
-
-        $this->connection = $connection;
-        $this->query = $query;
-        $this->value_bind_function = $value_bind_function;      
+    public function __construct(public $connection,public $query,public $value_bind_function = null){    
            
         $this->count_results();
     }
@@ -66,10 +59,10 @@ class Pagination{
                 call_user_func($this->value_bind_function,$statement);
             }
             $statement->execute();        
-            $this->totalResults = htmlspecialchars($statement->fetch(PDO::FETCH_ASSOC)['COUNT(*)'], ENT_QUOTES, 'UTF-8');
-
-        }catch(PDOException $e){
+            $this->totalResults = htmlspecialchars($statement->fetch(PDO::FETCH_ASSOC)['COUNT(*)'], ENT_QUOTES, 'UTF-8');                        
             
+        }catch(PDOException $e){
+           
         }
 
         return $this->totalResults;
@@ -88,7 +81,7 @@ class Pagination{
         }elseif(isset($_GET['page']) && $_GET['page'] > $this->totalPages){
             $this->page = $this->totalPages;
         }else{
-            $this->page =1;
+            $this->page = 1;
         }
         $this->start = ($this->page-1) * $this->itemsPerPage;
 
@@ -105,7 +98,7 @@ class Pagination{
                 call_user_func($this->value_bind_function,$this->result);
             }
             $this->result->execute();
-
+            
         }catch(PDOException $e){
            
         }       
