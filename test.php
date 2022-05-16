@@ -8,7 +8,19 @@
 </form>
 
 <?php
+
+
     $url = $_SERVER['REQUEST_URI'];
-    $queryString = substr($url,strpos($url,'&'));
+
+    
+    // if(strpos($url, '&') != null){
+    //     $queryString = substr($url,strpos($url,'&'));
+    // }else{
+    //     $queryString = null;
+    // }
+    
     echo $queryString;
+    echo '<br>';
+
+
 ?>
