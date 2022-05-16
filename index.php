@@ -14,6 +14,7 @@ $query = 'select * from persons';
 // }
 $pg = new Pagination($connection,$query);
 $pg->itemsPerPage = 3;
+$pg->buttonNumbers = 5;
 $rows = $pg->fetch_results();
 if($pg->totalResults > 0){
     foreach($rows as $row){
