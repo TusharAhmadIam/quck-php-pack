@@ -225,7 +225,7 @@ class Pagination{
                     }   
                 }
                 $this->linkButtons($next);
-                $this->link .= '<li class="page-item"><a class="page-link" href="'.$_SERVER["SCRIPT_NAME"].'?page='.($this->buttonNumbers + 1).$this->queryString().'">'.$this->nextJumpIconsf.'</a></li>';
+                $this->link .= '<li class="page-item"><a class="page-link" href="'.$_SERVER["SCRIPT_NAME"].'?page='.($this->buttonNumbers + 1).$this->queryString().'">'.$this->nextJumpIcon.'</a></li>';
         }
         elseif($this->page <= $this->buttonNumbers && $this->totalPages >= $this->buttonNumbers && $this->totalPages <= $this->buttonNumbers * 2){
             $this->link .= '<li class="page-item disabled"><a class="page-link" href="#" disabled>'.$this->prevJumpIcon.'</a></li>';
