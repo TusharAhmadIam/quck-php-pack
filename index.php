@@ -13,7 +13,7 @@ $query = 'select * from persons';
 //     $stmt->bindParam(':cat',$cat,PDO::PARAM_INT);
 // }
 $pg = new Pagination($connection,$query);
-$pg->itemsPerPage = 3;
+$pg->itemsPerPage = 5;
 $pg->buttonNumbers = 5;
 $rows = $pg->fetch_results();
 if($pg->totalResults > 0){

@@ -6,10 +6,6 @@ $db = new DB();
 $faker = Faker\Factory::create();
 
 $limit = 10;
-<<<<<<< HEAD
-
-=======
->>>>>>> fixbug
 
 foreach(range(1,$limit) as $x):
 
