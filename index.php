@@ -22,6 +22,7 @@ if($pg->totalResults > 0){
     }
 }
 echo '<br>';
+echo $pg->totalResults;
 echo $pg->links();
 
 ?>
