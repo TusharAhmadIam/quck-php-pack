@@ -9,15 +9,11 @@ class Format{
     }
     
     public static function format_slug($string){
-        return strtolower(trim(preg_replace('~[^0-9a-z]+~i', '-', html_entity_decode(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', htmlentities($string, ENT_QUOTES, 'UTF-8')), ENT_QUOTES, 'UTF-8')), '-'));
+        return urlencode($string);
     }
 
-    public static function format_date($date,$time=false){
-        if($time == false){
-            return date('F d Y', strtotime($date));
-        }else{
-            return date('F d Y - h:i a',strtotime($date)); // use Format::format_date($date,true)
-        }
+    public static function format_date($date,$fromat){        
+        return date($fromat, strtotime($date));   
     }
 
     public static function page_name(){
