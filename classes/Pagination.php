@@ -116,17 +116,6 @@ class Pagination{
 
     }
 
-    // public function queryString(){
-    //     $url = $_SERVER['REQUEST_URI'];
-    //     if(strpos($url, '&') != null){
-    //         $queryString = substr($url,strpos($url,'&'));
-    //     }else{
-    //         $queryString = null;
-    //     }
-    //     return $queryString;
-    // }
-
-
     public function linkButtons($increment, $disabled = false, $dots = true){
         $dots = $this->dots;        
        
