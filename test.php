@@ -27,4 +27,9 @@ echo $pg->totalResults;
 echo $pg->links();
 
 ?>
+<form action="" method="get">
+    <input type="text" name="name"><br><br>
+    <input type="text" name="email"><br><br>
+    <input type="submit" value="submit"><br><br>
+</form>
 </div>
