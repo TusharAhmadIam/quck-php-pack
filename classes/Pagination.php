@@ -14,16 +14,16 @@ class Pagination{
     public int $totalPages;
     public int $page;
     public $result;
-    public $link;    
-    public $prevPageIcon = '<';
-    public $nextPageIcon = '>';
-    public $jump = true;
-    public $prevJumpIcon = '&laquo';
-    public $nextJumpIcon = '&raquo';
+    public string $link = '';    
+    public string $prevPageIcon = '<';
+    public string $nextPageIcon = '>';
+    public bool $jump = true;
+    public string $prevJumpIcon = '&laquo';
+    public string $nextJumpIcon = '&raquo';
     public bool $dots = true; 
-    public $dotsIcon = '...'; 
-    public $customQueryString;
-    public $pdo = false;
+    public string $dotsIcon = '...'; 
+    public string $customQueryString;
+    public bool $pdo = false;
 
     public function __construct(public $connection,public $query,public $value_bind_function = null){            
         // $this->count_results();        
