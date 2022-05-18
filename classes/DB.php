@@ -7,7 +7,6 @@
         public $user    = DB_USER;
         public $pass    = DB_PASS;
         public $name    = DB_NAME;
-        public $dsn;
         public $con;
 
         public function __construct(){
@@ -15,18 +14,14 @@
         }
 
         protected function connection(){
-            try {
-                $this->dsn = "mysql:host=".$this->host."; dbname=".$this->name;
-                $this->con = new PDO($this->dsn, $this->user, $this->pass);
+           
+                $this->con = new PDO("mysql:host=".$this->host."; dbname=".$this->name, $this->user, $this->pass);
+
+                // $this->con = new mysqli($this->host,$this->user,$this->pass,$this->name);
                 if(!$this->con){
                     die('Connection failled');
-                }
-                
-            } catch (PDOException $e) {
-                echo "Connection failled";
-            }
-        }
-        
+                }            
+        }        
     }
  
 ?>

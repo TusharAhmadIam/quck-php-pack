@@ -1,36 +1,7 @@
 <?php
 
-/*Pagination class by Tushar Ahmed 
+/*Pagination class by Tushar Ahmed */
 
-* How to use example
-
-    <?php
-
-		$connection = $db->con;
-
-		$query = 'select * from posts where cat_id = :cat_id';
-	
-        function param_bind_function($statement){
-            global $cat_id;
-            $statement->bindParam(':id', $cat_id ,PDO::PARAM_INT);
-        }
-
-        $pg = new Pagination($connection,$query,'param_bind_function');
-		
-        if($pg->totalResults > 0){   // check results
-
-            $rows = $pg->fetch_results(); 
-            
-            foreach($rows as $row){
-            ----- $row['title']-----
-            ----- $row['body']------
-            }
-        }	
-		echo $pg->links();															
-																				
-	?>
-
-*/
 
 class Pagination{
 
@@ -50,25 +21,38 @@ class Pagination{
     public bool $dots = true; 
     public $dotsIcon = '...'; 
     public $customQueryString;
+    public $pdo = false;
 
-    public function __construct(public $connection,public $query,public $value_bind_function = null){    
-           
-        $this->count_results();
-        
+    public function __construct(public $connection,public $query,public $value_bind_function = null){            
+        // $this->count_results();        
     }
 
     public function count_results(){
-        try{
+        if($this->pdo == true){
+            try{
 
+                $statement = $this->connection->prepare("SELECT COUNT(*) FROM (". $this->query .") count");
+        
+                if(!empty($this->value_bind_function)){
+                    call_user_func($this->value_bind_function,$statement);
+                }
+                $statement->execute();        
+                $this->totalResults = htmlspecialchars($statement->fetch(PDO::FETCH_ASSOC)['COUNT(*)'], ENT_QUOTES, 'UTF-8');                        
+                
+            }catch(PDOException $e){
+            
+            }
+              
+        }else{  
             $statement = $this->connection->prepare("SELECT COUNT(*) FROM (". $this->query .") count");
-     
+        
             if(!empty($this->value_bind_function)){
                 call_user_func($this->value_bind_function,$statement);
             }
-            $statement->execute();        
-            $this->totalResults = htmlspecialchars($statement->fetch(PDO::FETCH_ASSOC)['COUNT(*)'], ENT_QUOTES, 'UTF-8');                        
-            
-        }catch(PDOException $e){
+
+            $statement->execute(); 
+            $countResult = $statement->get_result();       
+            $this->totalResults = htmlspecialchars($countResult->fetch_assoc()['COUNT(*)'], ENT_QUOTES, 'UTF-8');  
            
         }
 
@@ -93,26 +77,40 @@ class Pagination{
         $this->start = ($this->page-1) * $this->itemsPerPage;
 
         //fetching results 
-
-        try{
-            $this->query .= ' LIMIT :start, :limit'; 
         
+        if($this->pdo == true){
+            try{
+                $this->query .= ' LIMIT :start, :limit';
+                $this->result = $this->connection->prepare($this->query);   
+                $this->result->bindParam(':start', $this->start,PDO::PARAM_INT);
+                $this->result->bindParam(':limit', $this->itemsPerPage,PDO::PARAM_INT);
+            
+        
+                if(!empty($this->value_bind_function)){
+                    call_user_func($this->value_bind_function,$this->result);
+                }
+                $this->result->execute();
+                        
+                return $this->result->fetchAll(PDO::FETCH_ASSOC);
+                
+                $this->result->close();
+            }catch(PDOException $e){
+            
+            }           
+
+        }else{
+            $this->query .= ' LIMIT ?, ?'; 
             $this->result = $this->connection->prepare($this->query);   
-            $this->result->bindParam(':start', $this->start,PDO::PARAM_INT);
-            $this->result->bindParam(':limit', $this->itemsPerPage,PDO::PARAM_INT);
+            $this->result->bind_Param('ii', $this->start,$this->itemsPerPage);       
     
             if(!empty($this->value_bind_function)){
-                call_user_func($this->value_bind_function,$this->result);
+                call_user_func($this->value_bind_function, $this->result);
             }
             $this->result->execute();
-                    
-            return $this->result->fetchAll(PDO::FETCH_ASSOC);
-              
-            $this->result->close();
-        }catch(PDOException $e){
-           
-        }       
 
+            $fetched_result =$this->result->get_result();
+            return $fetched_result->fetch_assoc();                 
+        }
 
     }
 
@@ -294,10 +292,7 @@ class Pagination{
         }
         
         $this->link .= '</ul>';
-        return $this->link;
-        
-    }
-
-  
+        return $this->link;        
+    }  
 }
 

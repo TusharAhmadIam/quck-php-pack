@@ -12,11 +12,15 @@ $query = 'select * from persons';
 //     $cat = 1;
 //     $stmt->bindParam(':cat',$cat,PDO::PARAM_INT);
 // }
+
 $pg = new Pagination($connection,$query);
+$pg->pdo = true;
 $pg->customQueryString = '&name=tushar&daughter=trisha';
 $pg->itemsPerPage = 5;
 $pg->buttonNumbers = 5;
 $rows = $pg->fetch_results();
+echo '<pre>';
+// print_r($rows);
 if($pg->totalResults > 0){
     foreach($rows as $row){
         echo $row['id']. " -> " .$row['name']. "<br>";
@@ -25,7 +29,7 @@ if($pg->totalResults > 0){
     echo 'No records found';
 }
 echo '<br>';
-echo $pg->totalResults;
+// echo $pg->totalResults;
 echo $pg->links();
 
 ?>
