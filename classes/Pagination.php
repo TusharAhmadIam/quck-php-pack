@@ -101,9 +101,9 @@ class Pagination{
             }           
 
         }else{
-            $this->query .= ' LIMIT ?, ?'; 
-            $this->result = $this->connection->prepare($this->query);   
-            $this->result->bind_Param('ii', $this->start,$this->itemsPerPage);       
+            
+            $this->query .= ' LIMIT '.$this->start.' , '. $this->itemsPerPage; 
+            $this->result = $this->connection->prepare($this->query);         
     
             if(!empty($this->value_bind_function)){
                 call_user_func($this->value_bind_function, $this->result);
