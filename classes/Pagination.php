@@ -17,7 +17,7 @@
 
         $pg = new Pagination($connection,$query,'param_bind_function');
 		
-        if($pg->fetch_results()){   // or $pg->totalResults > 0
+        if($pg->totalResults > 0){   // check results
 
             $rows = $pg->fetch_results(); 
             
@@ -105,13 +105,9 @@ class Pagination{
                 call_user_func($this->value_bind_function,$this->result);
             }
             $this->result->execute();
-            
-            if($this->result->rowCount() > 0){
-                return $this->result->fetchAll(PDO::FETCH_ASSOC);
-            }else{
-                return false;
-            }
-    
+                    
+            return $this->result->fetchAll(PDO::FETCH_ASSOC);
+              
             $this->result->close();
         }catch(PDOException $e){
            
