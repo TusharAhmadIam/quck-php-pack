@@ -17,7 +17,7 @@
 
         $pg = new Pagination($connection,$query,'param_bind_function');
 		
-        if($pg->totalResults > 0){
+        if($pg->fetch_results()){   // or $pg->totalResults > 0
 
             $rows = $pg->fetch_results(); 
             
@@ -77,7 +77,7 @@ class Pagination{
 
     public function fetch_results(){ 
         
-       $this->count_results();
+       $this->count_results(); 
 
         $this->totalPages = ceil($this->totalResults/$this->itemsPerPage);
         if(isset($_GET['page']) && $_GET['page'] >= 1 && $_GET['page'] <= $this->totalPages){
@@ -106,13 +106,17 @@ class Pagination{
             }
             $this->result->execute();
             
+            if($this->result->rowCount() > 0){
+                return $this->result->fetchAll(PDO::FETCH_ASSOC);
+            }else{
+                return false;
+            }
+    
+            $this->result->close();
         }catch(PDOException $e){
            
         }       
 
-        return $this->result->fetchAll(PDO::FETCH_ASSOC);
-
-        $this->result->close();
 
     }
 

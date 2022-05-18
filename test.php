@@ -17,10 +17,12 @@ $pg->customQueryString = '&name=tushar&daughter=trisha';
 $pg->itemsPerPage = 5;
 $pg->buttonNumbers = 5;
 $rows = $pg->fetch_results();
-if($pg->totalResults > 0){
+if($pg->fetch_results()){
     foreach($rows as $row){
         echo $row['id']. " -> " .$row['name']. "<br>";
     }
+}else{
+    echo 'No records found';
 }
 echo '<br>';
 echo $pg->totalResults;
