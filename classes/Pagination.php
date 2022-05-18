@@ -1,6 +1,8 @@
 <?php
 
-/*Pagination class by Tushar Ahmed */
+/*
+* Pagination class by Tushar Ahmed 
+*/
 
 
 class Pagination{
@@ -109,7 +111,7 @@ class Pagination{
             $this->result->execute();
 
             $fetched_result =$this->result->get_result();
-            return $fetched_result->fetch_assoc();                 
+            return $fetched_result->fetch_all(MYSQLI_ASSOC);                 
         }
 
     }

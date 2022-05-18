@@ -14,7 +14,7 @@ $query = 'select * from persons';
 // }
 
 $pg = new Pagination($connection,$query);
-$pg->pdo = true;
+// $pg->pdo = true;
 $pg->customQueryString = '&name=tushar&daughter=trisha';
 $pg->itemsPerPage = 5;
 $pg->buttonNumbers = 5;
@@ -29,7 +29,7 @@ if($pg->totalResults > 0){
     echo 'No records found';
 }
 echo '<br>';
-// echo $pg->totalResults;
+echo $pg->totalResults;
 echo $pg->links();
 
 ?>

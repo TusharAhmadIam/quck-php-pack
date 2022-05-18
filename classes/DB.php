@@ -15,9 +15,9 @@
 
         protected function connection(){
            
-                $this->con = new PDO("mysql:host=".$this->host."; dbname=".$this->name, $this->user, $this->pass);
+                // $this->con = new PDO("mysql:host=".$this->host."; dbname=".$this->name, $this->user, $this->pass);
 
-                // $this->con = new mysqli($this->host,$this->user,$this->pass,$this->name);
+                $this->con = new mysqli($this->host,$this->user,$this->pass,$this->name);
                 if(!$this->con){
                     die('Connection failled');
                 }            
