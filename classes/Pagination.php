@@ -24,17 +24,19 @@ class Pagination{
 
     public function __construct(public $connection,public $query,public $value_bind_function = null){}
 
-    //counting total results
-    public function count_results(){
+    //fetching results
+    public function fetch_results(){
+        //counting total results
         if($this->pdo == true){          
 
-                $statement = $this->connection->prepare("SELECT COUNT(*) FROM (". $this->query .") count");
-        
-                if(!empty($this->value_bind_function)){
-                    call_user_func($this->value_bind_function,$statement);
-                }
-                $statement->execute();        
-                $this->totalResults = htmlspecialchars($statement->fetch(PDO::FETCH_ASSOC)['COUNT(*)'], ENT_QUOTES, 'UTF-8');  
+            $statement = $this->connection->prepare("SELECT COUNT(*) FROM (". $this->query .") count");
+    
+            if(!empty($this->value_bind_function)){
+                call_user_func($this->value_bind_function,$statement);
+            }
+
+            $statement->execute();        
+            $this->totalResults = htmlspecialchars($statement->fetch(PDO::FETCH_ASSOC)['COUNT(*)'], ENT_QUOTES, 'UTF-8');  
 
         }else{  
             $statement = $this->connection->prepare("SELECT COUNT(*) FROM (". $this->query .") count");
@@ -48,12 +50,6 @@ class Pagination{
             $this->totalResults = htmlspecialchars($countResult->fetch_assoc()['COUNT(*)'], ENT_QUOTES, 'UTF-8');  
         }
 
-        return $this->totalResults;
-    }
-
-    //fetching results
-    public function fetch_results(){ 
-        $this->count_results(); 
         if($this->totalResults > 0){
         
             //getting current page no
@@ -152,8 +148,9 @@ class Pagination{
     
     //displaying links
     public function links(){
-        $this->count_results(); 
+
         if($this->totalResults > 0){
+
             $prev = 'prev';
             $next = 'next';
             $half = floor( $this->buttonNumbers/2);
@@ -219,7 +216,7 @@ class Pagination{
                     }
                 $this->linkButtons($next);
                 if($this->page == $this->totalPages - ($this->totalPages % $this-> buttonNumbers)){
-                    $this->link .= '<li class="page-item disabled"><a class="page-link" href="#" disabled>'.$this->nextJumpIcon.'</a></li>';
+                    $this->link .= '<li class="page-item disabled"><a class="page-link" href="#" disabled>'.$this->nextJumpIcon.'3</a></li>';
                 }else{
                     $this->link .= '<li class="page-item"><a class="page-link" href="'.$_SERVER["SCRIPT_NAME"].'?page='.($this->page + $this->buttonNumbers).$this->customQueryString.'">'.$this->nextJumpIcon.'</a></li>';
                 }

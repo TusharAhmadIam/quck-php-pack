@@ -49,6 +49,8 @@ if($pg->totalResults >0 ){
 
 echo '<br>';
 echo $pg->totalResults;
+
+//echoing pagination links
 echo $pg->links();
 
 ?>

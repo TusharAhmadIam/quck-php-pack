@@ -12,13 +12,13 @@ foreach(range(1,$limit) as $x):
 $name = $faker->name;
 $cat = rand(1,2);
 
-// $query = 'truncate table persons';
-$query = 'insert into persons (name,cat) values (:name,:cat)';
+$query = 'truncate table persons';
+// $query = 'insert into persons (name,cat) values (:name,:cat)';
 
 $stmt = $db->con->prepare($query);
 
-$stmt->bindParam(':name', $name);
-$stmt->bindParam(':cat', $cat);
+// $stmt->bindParam(':name', $name);
+// $stmt->bindParam(':cat', $cat);
 
 $stmt->execute();
 
