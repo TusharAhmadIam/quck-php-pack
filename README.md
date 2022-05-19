@@ -5,4 +5,5 @@ A full featured highly customizable dynamic php pagination class with Bootstrap 
 **Documentation is comming soon !!!**
 
 By Tushar Ahmad
+
 See demo in --comming--
