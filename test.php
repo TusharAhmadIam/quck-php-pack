@@ -27,7 +27,7 @@ $query = 'select * from persons';
 $pg = new Pagination($connection,$query);
 $pg->pdo = true;
 // $pg->customQueryString = '&name=tushar&daughter=trisha';
-$pg->itemsPerPage = 5;
+$pg->itemsPerPage = 6;
 $pg->buttonNumbers = 5;
 $rows = $pg->fetch_results();
 echo '<pre>';

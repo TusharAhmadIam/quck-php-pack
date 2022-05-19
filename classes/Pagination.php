@@ -1,9 +1,7 @@
 <?php
-
 /*
 * Pagination class by Tushar Ahmed 
 */
-
 class Pagination{
 
     public int $totalResults;
@@ -151,6 +149,7 @@ class Pagination{
                 ';
             }                
     }
+    
     //displaying links
     public function links(){
         $prev = 'prev';
