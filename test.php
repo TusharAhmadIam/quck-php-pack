@@ -7,23 +7,23 @@ spl_autoload_register(function($class){
 
 $db = new DB();
 $connection = $db->con;
-$cat = 2;
+// $cat = 2;
 
-$query = 'select * from persons where cat = '.$cat;
-// $query = 'select * from persons where cat = ?';
+// $query = 'select * from persons where cat = '.$cat;
+$query = 'select * from persons where cat = ?';
 // $query = 'select * from persons where cat = :cat';
 // function bind_function($stmt){
 //     $cat = 2;
 //     $stmt->bindParam(':cat',$cat,PDO::PARAM_INT);
 // }
 
-// function bind_function($stmt){
-//     $cat =2;
-//     $stmt->bind_param('i',$cat);
-// }
+function bind_function($stmt){
+    $cat =2;
+    $stmt->bind_param('i',$cat);
+}
 
-// $pg = new Pagination($connection,$query,'bind_function');
-$pg = new Pagination($connection,$query);
+$pg = new Pagination($connection,$query,'bind_function');
+// $pg = new Pagination($connection,$query);
 // $pg->pdo = true;
 $pg->customQueryString = '&name=tushar&daughter=trisha';
 $pg->itemsPerPage = 5;

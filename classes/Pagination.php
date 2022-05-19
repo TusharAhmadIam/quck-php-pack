@@ -26,12 +26,11 @@ class Pagination{
     public bool $pdo = false;
 
     public function __construct(public $connection,public $query,public $value_bind_function = null){            
-        // $this->count_results();        
+              
     }
 
     public function count_results(){
-        if($this->pdo == true){
-            try{
+        if($this->pdo == true){          
 
                 $statement = $this->connection->prepare("SELECT COUNT(*) FROM (". $this->query .") count");
         
@@ -39,12 +38,8 @@ class Pagination{
                     call_user_func($this->value_bind_function,$statement);
                 }
                 $statement->execute();        
-                $this->totalResults = htmlspecialchars($statement->fetch(PDO::FETCH_ASSOC)['COUNT(*)'], ENT_QUOTES, 'UTF-8');                        
-                
-            }catch(PDOException $e){
-            
-            }
-              
+                $this->totalResults = htmlspecialchars($statement->fetch(PDO::FETCH_ASSOC)['COUNT(*)'], ENT_QUOTES, 'UTF-8');  
+
         }else{  
             $statement = $this->connection->prepare("SELECT COUNT(*) FROM (". $this->query .") count");
         
@@ -55,7 +50,6 @@ class Pagination{
             $statement->execute(); 
             $countResult = $statement->get_result();       
             $this->totalResults = htmlspecialchars($countResult->fetch_assoc()['COUNT(*)'], ENT_QUOTES, 'UTF-8');  
-           
         }
 
         return $this->totalResults;
@@ -81,12 +75,11 @@ class Pagination{
         //fetching results 
         
         if($this->pdo == true){
-            try{
+          
                 $this->query .= ' LIMIT :start, :limit';
                 $this->result = $this->connection->prepare($this->query);   
                 $this->result->bindParam(':start', $this->start,PDO::PARAM_INT);
-                $this->result->bindParam(':limit', $this->itemsPerPage,PDO::PARAM_INT);
-            
+                $this->result->bindParam(':limit', $this->itemsPerPage,PDO::PARAM_INT);         
         
                 if(!empty($this->value_bind_function)){
                     call_user_func($this->value_bind_function,$this->result);
@@ -96,10 +89,7 @@ class Pagination{
                 return $this->result->fetchAll(PDO::FETCH_ASSOC);
                 
                 $this->result->close();
-            }catch(PDOException $e){
             
-            }           
-
         }else{
             
             $this->query .= ' LIMIT '.$this->start.' , '. $this->itemsPerPage; 
@@ -141,7 +131,7 @@ class Pagination{
             }
        
         //next
-        elseif($increment == 'next' && $disabled == false && $dots == true){
+            elseif($increment == 'next' && $disabled == false && $dots == true){
                 $this->link .= '
                 <li class="page-item disabled"><a class="page-link" href="#" disabled>'.$this->dotsIcon.'</a></li> 
                 <li class="page-item"><a class="page-link" href="'.$_SERVER["SCRIPT_NAME"].'?page='.($this->totalPages).$this->customQueryString.'">'.$this->totalPages.'</a></li>            
