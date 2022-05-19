@@ -27,12 +27,12 @@ $query = 'select * from persons';
 $pg = new Pagination($connection,$query);
 $pg->pdo = true;
 // $pg->customQueryString = '&name=tushar&daughter=trisha';
-$pg->itemsPerPage = 6;
+$pg->itemsPerPage = 5;
 $pg->buttonNumbers = 5;
-$rows = $pg->fetch_results();
 echo '<pre>';
 // print_r($rows);
-if($pg->totalResults > 0){
+$rows = $pg->fetch_results();
+if($pg->totalResults >0 ){
     foreach($rows as $row){
         echo $row['id']. " -> " .$row['name']. "<br>";
     }
