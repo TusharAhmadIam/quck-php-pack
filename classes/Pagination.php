@@ -4,7 +4,6 @@
 * Pagination class by Tushar Ahmed 
 */
 
-
 class Pagination{
 
     public int $totalResults;
@@ -22,13 +21,14 @@ class Pagination{
     public string $nextJumpIcon = '&raquo';
     public bool $dots = true; 
     public string $dotsIcon = '...'; 
-    public string $customQueryString;
+    public string $customQueryString = '';
     public bool $pdo = false;
 
     public function __construct(public $connection,public $query,public $value_bind_function = null){            
               
     }
 
+    //counting total results
     public function count_results(){
         if($this->pdo == true){          
 
@@ -130,7 +130,7 @@ class Pagination{
                 ';
             }
        
-        //next
+            //next
             elseif($increment == 'next' && $disabled == false && $dots == true){
                 $this->link .= '
                 <li class="page-item disabled"><a class="page-link" href="#" disabled>'.$this->dotsIcon.'</a></li> 
@@ -149,11 +149,9 @@ class Pagination{
                 $this->link .= '
                 <li class="page-item"><a class="page-link" href="'.$_SERVER["SCRIPT_NAME"].'?page='.($this->page + 1).$this->customQueryString.'">'.$this->nextPageIcon.'</a></li>             
                 ';
-            } 
-           
-              
+            }                
     }
-
+    //displaying links
     public function links(){
         $prev = 'prev';
         $next = 'next';
@@ -188,28 +186,9 @@ class Pagination{
                     } 
                 $this->link .= '<li class="page-item disabled"><a class="page-link" href="#" disabled>'.$this->nextJumpIcon.'</a></li>'; 
             }
-        }
-        
-        elseif($this->page <= $this->buttonNumbers && $this->totalPages >= $this->buttonNumbers && $this->totalPages >= $this->buttonNumbers * 2 && $this->page <= $half){
-            $this->link .= '<li class="page-item disabled"><a class="page-link" href="#" disabled>'.$this->prevJumpIcon.'</a></li>';
-            if($this->page == 1){
-                $this->linkButtons($prev, true);
-            }else{
+        }   
 
-                $this->linkButtons($prev, false);
-            }
-                for ($i= 1; $i <= $this->buttonNumbers; $i++) { 
-
-                    if($i == $this->page){
-                        $this->link .= '<li class="page-item active"><a class="page-link " href="'.$_SERVER["SCRIPT_NAME"].'?page='.$i.$this->customQueryString.'">'.$i.'</a></li>';
-                    }else{
-                        $this->link .= '<li class="page-item"><a class="page-link" href="'.$_SERVER["SCRIPT_NAME"].'?page='.$i.$this->customQueryString.'">'.$i.'</a></li>';
-                    }   
-                }
-                $this->linkButtons($next);
-                $this->link .= '<li class="page-item"><a class="page-link" href="'.$_SERVER["SCRIPT_NAME"].'?page='.($this->page + $this->buttonNumbers).$this->customQueryString.'">'.$this->nextJumpIcon.'</a></li>';
-        }
-        elseif($this->page <= $this->buttonNumbers && $this->totalPages >= $this->buttonNumbers && $this->totalPages <= $this->buttonNumbers * 2){
+        elseif($this->page <= $this->buttonNumbers && $this->totalPages > $this->buttonNumbers){
             $this->link .= '<li class="page-item disabled"><a class="page-link" href="#" disabled>'.$this->prevJumpIcon.'</a></li>';
             if($this->page == 1){
                 $this->linkButtons($prev, true);
@@ -228,16 +207,12 @@ class Pagination{
                 $this->linkButtons($next);
                 $this->link .= '<li class="page-item"><a class="page-link" href="'.$_SERVER["SCRIPT_NAME"].'?page='.($this->page + $this->buttonNumbers).$this->customQueryString.'">'.$this->nextJumpIcon.'</a></li>';
         } 
-        //       
-        elseif($this->page <= $this->buttonNumbers && $this->totalPages >= $this->buttonNumbers && $this->totalPages > $this->buttonNumbers * 2 && $this->page > $half){
-            $this->link .= '<li class="page-item disabled"><a class="page-link" href="#" disabled>'.$this->prevJumpIcon.'</a></li>';
-            if($this->page == 1){
-                $this->linkButtons($prev, true);
-            }else{
-
-                $this->linkButtons($prev, false);
-            }
-                for ($i= 1; $i <= $this->buttonNumbers; $i++) { 
+        
+        elseif($this->page > $this->buttonNumbers && $this->totalPages > $this->buttonNumbers * 2 && $this->page < $this->totalPages - ($this->totalPages % $this-> buttonNumbers -1)){
+            $this->link .= '<li class="page-item"><a class="page-link" href="'.$_SERVER["SCRIPT_NAME"].'?page='.($this->page - $this->buttonNumbers).$this->customQueryString.'">'.$this->prevJumpIcon.'3</a></li>';
+            $this->linkButtons($prev);
+            
+                for ($i= $this->page - $half ; $i <= $this->page + $half; $i++) { 
 
                     if($i == $this->page){
                         $this->link .= '<li class="page-item active"><a class="page-link " href="'.$_SERVER["SCRIPT_NAME"].'?page='.$i.$this->customQueryString.'">'.$i.'</a></li>';
@@ -248,26 +223,12 @@ class Pagination{
                 $this->linkButtons($next);
                 $this->link .= '<li class="page-item"><a class="page-link" href="'.$_SERVER["SCRIPT_NAME"].'?page='.($this->page + $this->buttonNumbers).$this->customQueryString.'">'.$this->nextJumpIcon.'</a></li>';
         }
-        elseif($this->page > $this->buttonNumbers && $this->totalPages > $this->buttonNumbers && $this->page < ($this->totalPages - $half)){
-            
-            $this->link .= '<li class="page-item"><a class="page-link" href="'.$_SERVER["SCRIPT_NAME"].'?page='.($this->page - $this->buttonNumbers).$this->customQueryString.'">'.$this->prevJumpIcon.'</a></li>';
-            $this->linkButtons($prev);
-                for ($i=($this->page - $half); $i <= ($this->page + $half); $i++) { 
-
-                    if($i == $this->page){
-                        $this->link .= '<li class="page-item active"><a class="page-link " href="'.$_SERVER["SCRIPT_NAME"].'?page='.$i.$this->customQueryString.'">'.$i.'</a></li>';
-                    }else{
-                        $this->link .= '<li class="page-item"><a class="page-link" href="'.$_SERVER["SCRIPT_NAME"].'?page='.$i.$this->customQueryString.'">'.$i.'</a></li>';
-                    }   
-                }
-                $this->linkButtons($next);
-                $this->link .= '<li class="page-item"><a class="page-link" href="'.$_SERVER["SCRIPT_NAME"].'?page='.($this->page + $this->buttonNumbers).$this->customQueryString.'">'.$this->nextJumpIcon.'</a></li>';
-
-        }elseif($this->page >= ($this->totalPages - $this->buttonNumbers) ){
+       
+        elseif($this->page > $this->buttonNumbers && $this->totalPages % $this-> buttonNumbers != 0 ){
             $this->link .= '<li class="page-item"><a class="page-link" href="'.$_SERVER["SCRIPT_NAME"].'?page='.($this->page - $this->buttonNumbers).$this->customQueryString.'">'.$this->prevJumpIcon.'</a></li>';
             $this->linkButtons($prev);
 
-                for ($i=($this->totalPages - $this->buttonNumbers)+1; $i <= $this->totalPages ; $i++) { 
+                for ($i= $this->totalPages - ($this->totalPages % $this->buttonNumbers -1); $i <= $this->totalPages; $i++) { 
                     if($i == $this->page){
                         $this->link .= '<li class="page-item active"><a class="page-link " href="'.$_SERVER["SCRIPT_NAME"].'?page='.$i.$this->customQueryString.'">'.$i.'</a></li>';
                     }else{
