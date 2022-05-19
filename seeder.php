@@ -11,6 +11,7 @@ foreach(range(1,$limit) as $x):
 
 $name = $faker->name;
 $cat = rand(1,2);
+
 // $query = 'truncate table persons';
 $query = 'insert into persons (name,cat) values (:name,:cat)';
 
