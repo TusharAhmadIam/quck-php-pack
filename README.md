@@ -4,6 +4,6 @@ A full featured highly customizable dynamic php pagination class with Bootstrap 
 
 **Documentation is comming soon !!!**
 
-By Tushar Ahmad
+See demo here <a href="http://tushar.thats.im/php-pagination/test.php" target="_blank">http://tushar.thats.im/php-pagination/test.php</a>
 
-See demo here [http://tushar.thats.im/php-pagination/test.php](http://tushar.thats.im/php-pagination/test.php)
+By Tushar Ahmad
