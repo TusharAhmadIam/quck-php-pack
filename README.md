@@ -8,4 +8,4 @@
 
 See demo here <a href="http://tushar.thats.im/php-pagination/test.php" target="_blank">http://tushar.thats.im/php-pagination/test.php</a>
 
-By Tushar Ahmad
+&copy; 2022 Tushar Ahmad all rights reserved.
