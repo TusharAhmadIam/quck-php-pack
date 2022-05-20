@@ -1,5 +1,5 @@
 #### A full featured highly customizable dynamic php pagination class with Bootstrap and prepared statement
-* *Write 3-4 line code - **save time***
+* *Write 3-4 lines code - **save time***
 * *Customize by using class property*
 * *Works with OOP and PDO both*
 * *Works with bind param and without bind param* 
