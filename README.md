@@ -1,4 +1,4 @@
-#### A full featured highly customizable dynamic php pagination class with Bootstrap and prepared statement
+#### A modern, full featured, secure, highly customizable, dynamic php pagination class with Bootstrap and prepared statement
 * *Write 3-4 lines code - **save time***
 * *Customize by using class property*
 * *Works with OOP and PDO both*
