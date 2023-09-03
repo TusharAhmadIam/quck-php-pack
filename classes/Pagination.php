@@ -1,6 +1,6 @@
 <?php
 /*
-* Pagination class by Tushar Ahmed 
+* Pagination class by Tushar Ahmad 
 */
 class Pagination{
 
@@ -22,8 +22,7 @@ class Pagination{
     public string $customQueryString = '';
     public bool $pdo = false;
 
-
-    //omit on php 8
+    //php 7 start
     public $connection;
     public $query;
     public $value_bind_function;
@@ -33,6 +32,11 @@ class Pagination{
         $this->query = $query;
         $this->value_bind_function = $value_bind_function;
     }
+    //php 7 end
+
+    //php 8 start
+    //public function __construct(Public $connection, public $query, public $value_bind_function = null){}
+    //php 8 end
 
     //fetching results
     public function fetch_results(){
