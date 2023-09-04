@@ -6,6 +6,6 @@
 
 **Documentation is comming soon !!!**
 
-See demo here <a href="https://tushar.thats.im/php-pagination/test.php" target="_blank">https://tushar.thats.im/php-pagination/test.php</a>
+
 
 &copy; 2022 Tushar Ahmad all rights reserved.
