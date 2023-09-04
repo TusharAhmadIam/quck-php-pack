@@ -31,7 +31,7 @@ $pg->pdo = true;
 
 // $pg->customQueryString = '&name=tushar&daughter=trisha';
 
-$pg->itemsPerPage = 5;
+$pg->itemsPerPage = 8;
 
 $pg->buttonNumbers = 5;
 
